@@ -1,8 +1,6 @@
 clc; clear; close all;
 
-%% =========================================================
-%  GLOBAL SIMULATION PARAMETERS
-%% =========================================================
+
 rng(42);                        % Fixed seed for reproducibility
 N_BITS_BASE   = 500;            % Payload bits per packet (baseline)
 N_PACKETS     = 200;            % Monte Carlo packets per point
@@ -23,10 +21,9 @@ fprintf('========================================================\n');
 fprintf('  LoRa BER Testbench  |  Real-Time SDR Acquisition\n');
 fprintf('        Hardware: ADALM-PLUTO (AD9363 Transceiver)\n');
 fprintf('========================================================\n');
-pause(0.6);
 
 fprintf('[INIT]  Detecting ADALM-PLUTO hardware...\n');
-pause(0.5);
+
 
 % ---- Check PlutoSDR support package is installed ----
 try
@@ -35,7 +32,7 @@ try
 catch
     fprintf('[INIT]  radioinfo() unavailable. Attempting direct connection...\n');
 end
-pause(0.4);
+
 
 % ---- Instantiate the PlutoSDR Rx object ----
 % Adjust 'RadioID' to 'usb:0' (USB) or 'ip:192.168.2.1' (Ethernet)
@@ -46,7 +43,7 @@ RX_GAIN_DB     = 35;               % Manual Rx gain (dB)
 FRAME_LENGTH   = 4096;             % Samples per capture frame
 
 fprintf('[INIT]  Instantiating sdrrx (PlutoSDR)...\n');
-pause(0.3);
+
 
 try
     rx = sdrrx('Pluto', ...
@@ -63,7 +60,6 @@ catch ME
     fprintf('[WARN]  Continuing in simulation-only mode (no live IQ capture).\n');
     rx = [];   % rx=[] triggers graceful fallback throughout the script
 end
-pause(0.4);
 
 fprintf('[INIT]  Driver  : libiio / libad9361\n');                    pause(0.3);
 fprintf('[INIT]  Chip    : AD9363  |  FPGA: Xilinx Zynq-7010\n');     pause(0.3);
@@ -80,7 +76,6 @@ if ~isempty(rx)
     fprintf('[INIT]  Flushing Rx pipeline (%d warm-up frames)...\n', 3);
     for warmup_i = 1:3
         [~, ~, ~] = rx();
-        pause(0.05);
     end
     fprintf('[INIT]  Rx pipeline ready.\n');
 end
@@ -111,7 +106,7 @@ fprintf('[MEAS]  Starting BASELINE measurement (Fig. 3 replica)\n');
 fprintf('[MEAS]  Mode: Single interferer | BW = 125 kHz\n');
 fprintf('[MEAS]  SIR sweep: -30 dB to +5 dB  (step 2 dB)\n');
 fprintf('--------------------------------------------------------\n');
-pause(0.4);
+
 
 n_sir   = numel(SIR_dB_range);
 n_sf    = numel(SF_list);
