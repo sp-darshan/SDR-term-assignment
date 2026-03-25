@@ -35,8 +35,7 @@ end
 
 
 % ---- Instantiate the PlutoSDR Rx object ----
-% Adjust 'RadioID' to 'usb:0' (USB) or 'ip:192.168.2.1' (Ethernet)
-PLUTO_ID       = 'usb:0';          % <-- Change if using Ethernet: 'ip:192.168.2.1'
+PLUTO_ID       = 'ip:192.168.2.1';        
 CENTER_FREQ_HZ = 868.1e6;          % EU868 LoRa channel
 SAMPLE_RATE    = 1e6;              % 1 MSPS  (oversample; decimated internally)
 RX_GAIN_DB     = 35;               % Manual Rx gain (dB)
